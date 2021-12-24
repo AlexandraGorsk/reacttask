@@ -1,32 +1,26 @@
 import React from 'react';
-class Menu extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = { text: '' };
-		this.contentRender = this.contentRender.bind(this);
-	}
-	contentRender(e) {
-		this.setState({ text: `This is content for menu ${e.target.id}` });
-	}
+import { BrowserRouter as Router } from 'react-router-dom';
+import Menu from './components/Menu/Menu';
+import AppRouter from './router/AppRouter';
 
+import styled from 'styled-components';
+const Wrapper = styled('section')`
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+`;
+
+class App extends React.Component {
 	render() {
 		return (
-			<div class='wrapper'>
-				<div class='menu'>
-					<h2 id='1' onClick={this.contentRender}>
-						Menu 1
-					</h2>
-					<h2 id='2' onClick={this.contentRender}>
-						Menu 2
-					</h2>
-					<h2 id='3' onClick={this.contentRender}>
-						Menu 3
-					</h2>
-				</div>
-				<div class='text'>{this.state.text}</div>
-			</div>
+			<Router>
+				<Wrapper>
+					<Menu />
+					<AppRouter />
+				</Wrapper>
+			</Router>
 		);
 	}
 }
 
-export default Menu;
+export default App;
