@@ -2,8 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 const Main = styled('section')`
-	border-right: 1px solid khaki;
+	border-right: 1px solid rgb(246, 235, 235);
+	background-color: rgb(236, 235, 235);
 	height: 1000px;
+	width:200px;
 `;
 const NavItem = styled('li')`
 	list-style: none;
