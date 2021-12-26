@@ -1,17 +1,16 @@
 import React from 'react';
-import styled from 'styled-components';
+import About from '../pages/About';
+import Contact from '../pages/Contact';
+import News from '../pages/News';
 
 import { Routes, Route } from 'react-router-dom';
-const Description = styled('h2')`
-	padding: 20px;
-`;
 
 const AppRouter = () => {
 	return (
 		<Routes>
-			<Route path='about' element={<Description>about</Description>} />
-			<Route path='contacts' element={<Description>contacts</Description>} />
-			<Route path='news' element={<Description>news</Description>} />
+			<Route path='/' element={<About />} />
+			<Route path='contact' element={<Contact />} />
+			<Route path='news' element={<News />} />
 		</Routes>
 	);
 };

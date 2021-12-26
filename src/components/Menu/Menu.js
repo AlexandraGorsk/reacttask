@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { MenuData } from './MenuData';
 const Main = styled('section')`
 	border-right: 1px solid rgb(246, 235, 235);
 	background-color: rgb(236, 235, 235);
-	height: 1000px;
-	width:200px;
+	height: 100vh;
+	width: 200px;
 `;
 const NavItem = styled('li')`
 	list-style: none;
@@ -25,15 +26,13 @@ const Menu = () => {
 	return (
 		<Main>
 			<ul>
-				<NavItem>
-					<Link to='about'>About us</Link>
-				</NavItem>
-				<NavItem>
-					<Link to='contacts'>Contact us</Link>
-				</NavItem>
-				<NavItem>
-					<Link to='news'>Our news</Link>
-				</NavItem>
+				{MenuData.map((item, index) => {
+					return (
+						<NavItem key={index}>
+							<Link to={item.path}>{item.title}</Link>
+						</NavItem>
+					);
+				})}
 			</ul>
 		</Main>
 	);
