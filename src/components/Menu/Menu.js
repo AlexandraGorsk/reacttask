@@ -11,7 +11,7 @@ const Main = styled('section')`
 const NavItem = styled('li')`
 	list-style: none;
 	padding: 20px;
-	margin: 0px 8px 0px 0px;
+	margin: 0 8px 0 0;
 	font-size: 20px;
 	> a {
 		text-decoration: none;
