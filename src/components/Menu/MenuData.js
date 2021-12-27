@@ -1,7 +1,7 @@
 import React from 'react';
 export const MenuData = [
 	{
-		title: 'About',
+		title: 'Registration',
 		path: '/',
 	},
 	{

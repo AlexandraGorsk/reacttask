@@ -6,4 +6,31 @@
 
 .content {
     padding: 20px;
+    margin: 0 auto;
+}
+
+.title {
+    margin: 10px auto;
+    align-items: center;
+}
+
+.registration {
+
+    display: flex;
+    flex-direction: column;
+}
+
+.input {
+    width: 300px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.send {
+    width: 100px;
+    padding: 3px;
+}
+
+label {
+    margin-left: 10px;
 }
