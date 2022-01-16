@@ -115,7 +115,7 @@ function Form() {
 				</div>
 				<div>
 					<h4>E-mail</h4>
-					{touched.email && errorEmail && (
+					{touched.email && errorEmail && formData.email !== '' && (
 						<h5 className='errormessage'>Введите корректный email</h5>
 					)}
 					<input
