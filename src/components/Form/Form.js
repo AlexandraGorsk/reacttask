@@ -47,6 +47,10 @@ function Form() {
 			phone: '',
 			important: 'yes',
 		});
+		setTouched({
+			login: false,
+			email: false,
+		});
 	};
 	const RadioGender = ({ label, value, onChange, name }) => {
 		return (
