@@ -1,5 +1,6 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useState } from 'react';
+import { validateLogin, validateEmail } from './validateForm/validateLogin.js';
 
 function Form() {
 	const [formData, setFormData] = useState({
@@ -12,37 +13,29 @@ function Form() {
 		phone: '',
 		important: 'yes',
 	});
-	const [errorLogin, setErrorLogin] = useState('');
-	// const [errorValidateEmail, setErrorValidateEmail] = useState('');
-	const [touchedLogin, setTouchedLogin] = useState(false);
+	const errorLogin = validateLogin(formData.login);
+	const errorEmail = validateEmail(formData.email);
+	const [touched, setTouched] = useState({
+		login: false,
+		email: false,
+	});
 	const [formValid, setFormValid] = useState(false);
 	const handleChangeFormData = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
-	const handleBlurLogin = (e) => {
-		setTouchedLogin(true);
-		if (touchedLogin) {
-			setErrorLogin('Логин не должен быть пустым');
-		}
+	const handleBlur = (e) => {
+		setTouched({ ...touched, [e.target.name]: true });
 	};
+
 	useEffect(() => {
-		if (errorLogin) {
+		if (!!errorLogin) {
 			setFormValid(false);
 		} else setFormValid(true);
 	}, [errorLogin]);
-	// function validateEmail(email) {
-	// 	var re =
-	// 		/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-	// 	return re.test(String(email).toLowerCase());
-	// }
+
 	const sendButton = (e) => {
 		e.preventDefault();
 
-		// if (formData.email !== '') {
-		// 	if (!validateEmail(formData.email)) {
-		// 		setErrorValidateEmail('Имейл не корректный, будь в курсе');
-		// 	}
-		// }
 		console.log(formData);
 		setFormData({
 			gender: 'male',
@@ -102,7 +95,7 @@ function Form() {
 				</div>
 				<div>
 					<h4>Login</h4>
-					{touchedLogin && errorLogin && (
+					{touched.login && !!errorLogin && (
 						<h5 className='errormessage'>{errorLogin}</h5>
 					)}
 					<input
@@ -112,13 +105,15 @@ function Form() {
 						type='text'
 						placeholder='Enter your login'
 						onChange={handleChangeFormData}
-						onBlur={handleBlurLogin}
+						onBlur={handleBlur}
 						required
 					/>
 				</div>
 				<div>
 					<h4>E-mail</h4>
-					{/* <h5 className='errormessage'>{errorValidateEmail}</h5> */}
+					{touched.email && errorEmail && (
+						<h5 className='errormessage'>Введите корректный email</h5>
+					)}
 					<input
 						className='input'
 						value={formData.email}
@@ -126,6 +121,7 @@ function Form() {
 						type='text'
 						placeholder='Enter your email'
 						onChange={handleChangeFormData}
+						onBlur={handleBlur}
 					/>
 				</div>
 				<div>
