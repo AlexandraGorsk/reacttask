@@ -1,6 +1,12 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { validateLogin, validateEmail } from './validateForm/validateLogin.js';
+import {
+	validateLogin,
+	validateEmail,
+	validateLastName,
+	validateFirstName,
+	validatePhone,
+} from './validateForm/validate.js';
 
 function Form() {
 	const [formData, setFormData] = useState({
@@ -15,23 +21,24 @@ function Form() {
 	});
 	const errorLogin = validateLogin(formData.login);
 	const errorEmail = validateEmail(formData.email);
+	const errorLastName = validateLastName(formData.lastName);
+	const errorFirstName = validateFirstName(formData.firstName);
+	const errorPhone = validatePhone(formData.phone);
+	const error =
+		!!errorLogin || !!errorFirstName || !!errorLastName || !!errorPhone;
 	const [touched, setTouched] = useState({
 		login: false,
 		email: false,
+		firstName: false,
+		lastName: false,
+		phone: false,
 	});
-	const [formValid, setFormValid] = useState(false);
 	const handleChangeFormData = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 	const handleBlur = (e) => {
 		setTouched({ ...touched, [e.target.name]: true });
 	};
-
-	useEffect(() => {
-		if (!!errorLogin) {
-			setFormValid(false);
-		} else setFormValid(true);
-	}, [errorLogin]);
 
 	const sendButton = (e) => {
 		e.preventDefault();
@@ -50,6 +57,9 @@ function Form() {
 		setTouched({
 			login: false,
 			email: false,
+			firstName: false,
+			lastName: false,
+			phone: false,
 		});
 	};
 	const RadioGender = ({ label, value, onChange, name }) => {
@@ -130,6 +140,9 @@ function Form() {
 				</div>
 				<div>
 					<h4>First Name</h4>
+					{touched.firstName && !!errorFirstName && (
+						<h5 className='errormessage'>{errorFirstName}</h5>
+					)}
 					<input
 						className='input'
 						value={formData.firstName}
@@ -137,10 +150,14 @@ function Form() {
 						type='text'
 						placeholder='Enter your First Name'
 						onChange={handleChangeFormData}
+						onBlur={handleBlur}
 					/>
 				</div>
 				<div>
 					<h4>Last Name</h4>
+					{touched.lastName && !!errorLastName && (
+						<h5 className='errormessage'>{errorLastName}</h5>
+					)}
 					<input
 						className='input'
 						value={formData.lastName}
@@ -148,6 +165,7 @@ function Form() {
 						type='text'
 						placeholder='Enter your Last Name'
 						onChange={handleChangeFormData}
+						onBlur={handleBlur}
 					/>
 				</div>
 				<div>
@@ -163,6 +181,9 @@ function Form() {
 				</div>
 				<div>
 					<h4>Mobile Phone</h4>
+					{touched.phone && !!errorPhone && (
+						<h5 className='errormessage'>{errorPhone}</h5>
+					)}
 					<input
 						className='input'
 						value={formData.phone}
@@ -170,6 +191,7 @@ function Form() {
 						type='text'
 						placeholder='Enter your mobile phone'
 						onChange={handleChangeFormData}
+						onBlur={handleBlur}
 					/>
 				</div>
 				<div>
@@ -188,7 +210,7 @@ function Form() {
 					/>
 				</div>
 				<div>
-					<button disabled={!formValid} className='send' onClick={sendButton}>
+					<button disabled={error} className='send' onClick={sendButton}>
 						Send
 					</button>
 				</div>
