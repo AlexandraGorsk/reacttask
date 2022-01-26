@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useState } from 'react';
 import {
 	validateLogin,
 	validateEmail,
-	validateLastName,
-	validateFirstName,
-	validatePhone,
+	validateCommon,
 } from './validateForm/validate.js';
 
 function Form() {
@@ -21,9 +19,9 @@ function Form() {
 	});
 	const errorLogin = validateLogin(formData.login);
 	const errorEmail = validateEmail(formData.email);
-	const errorLastName = validateLastName(formData.lastName);
-	const errorFirstName = validateFirstName(formData.firstName);
-	const errorPhone = validatePhone(formData.phone);
+	const errorLastName = validateCommon(formData.lastName);
+	const errorFirstName = validateCommon(formData.firstName);
+	const errorPhone = validateCommon(formData.phone);
 	const error =
 		!!errorLogin || !!errorFirstName || !!errorLastName || !!errorPhone;
 	const [touched, setTouched] = useState({

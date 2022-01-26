@@ -7,15 +7,7 @@ export const validateEmail = (email) => {
 		/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 	return !re.test(String(email).toLowerCase());
 };
-export const validateLastName = (name) => {
-	if (!name) return 'Поле не должно быть пустым';
-	return '';
-};
-export const validateFirstName = (name) => {
-	if (!name) return 'Поле не должно быть пустым';
-	return '';
-};
-export const validatePhone = (phone) => {
-	if (!phone) return 'Необходимо ввести номер телефона';
+export const validateCommon = (field) => {
+	if (!field) return 'Поле не должно быть пустым';
 	return '';
 };
