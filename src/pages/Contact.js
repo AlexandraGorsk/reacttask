@@ -1,11 +1,15 @@
-import React from 'react'
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { getSlice } from '../store/form';
 
 function Contact() {
-    return (
-        <div className="content">
-             <h1>Contact</h1>
-        </div>
-    )
+	const users = useSelector(getSlice);
+	return (
+		<div className='content'>
+			<h1>Users</h1>
+			{users}
+		</div>
+	);
 }
 
-export default Contact
+export default Contact;

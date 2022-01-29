@@ -1,5 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../../store/form/form.action.js';
 import {
 	validateLogin,
 	validateEmail,
@@ -7,6 +9,7 @@ import {
 } from './validateForm/validate.js';
 
 function Form() {
+	const dispatch = useDispatch();
 	const [formData, setFormData] = useState({
 		gender: 'male',
 		login: '',
@@ -40,7 +43,7 @@ function Form() {
 
 	const sendButton = (e) => {
 		e.preventDefault();
-
+		dispatch(addUser(formData));
 		console.log(formData);
 		setFormData({
 			gender: 'male',
