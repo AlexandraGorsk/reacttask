@@ -1,22 +1,17 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { UserItem } from '../components/Users/user';
 import { getSlice } from '../store/form';
+import User from '../components/Users';
 
 function Users() {
-	const userList = useSelector(getSlice);
+	const { userList } = useSelector(getSlice);
 	useEffect(() => {
 		localStorage.setItem('userList', JSON.stringify(userList));
 	}, [userList]);
-	const user = userList?.map((user) => (
-		<UserItem key={user.login} user={user} />
+	const user = userList?.map((item) => (
+		<User key={item.login} user={item} id={item.id} />
 	));
-	return (
-		<div className='content'>
-			<h1>Users</h1>
-			{user}
-		</div>
-	);
+	return <div className='user-wrapper'>{user}</div>;
 }
 
 export default Users;

@@ -1,1 +1,1 @@
-export const getSlice = (state) => state.form;
+export const getSlice = (state) => state.users;
