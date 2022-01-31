@@ -4,9 +4,9 @@ import { UserItem } from '../components/Users/user';
 import { getSlice } from '../store/form';
 
 function Users() {
-	const { userList } = useSelector(getSlice);
+	const userList = useSelector(getSlice);
 	useEffect(() => {
-		localStorage.setItem('todolist', JSON.stringify(userList));
+		localStorage.setItem('userList', JSON.stringify(userList));
 	}, [userList]);
 	const user = userList?.map((user) => (
 		<UserItem key={user.login} user={user} />
