@@ -1,5 +1,5 @@
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
 
 import { userReducer } from './form';
-
-export const store = createStore(userReducer);
+const reducers = combineReducers({ users: userReducer });
+export const store = createStore(reducers);

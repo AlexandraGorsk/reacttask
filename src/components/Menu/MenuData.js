@@ -5,8 +5,8 @@ export const MenuData = [
 		path: '/',
 	},
 	{
-		title: 'Contact',
-		path: '/contact',
+		title: 'Users',
+		path: '/users',
 	},
 	{
 		title: 'News',

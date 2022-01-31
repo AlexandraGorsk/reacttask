@@ -5,8 +5,8 @@ export const UserItem = styled('h1')`
 	border: 1px solid black;
 `;
 
-const User = ({ login, email, phone, id }) => {
-	return { login };
+const User = ({ user }) => {
+	return <UserItem>{user.login}</UserItem>;
 };
 
 export default User;

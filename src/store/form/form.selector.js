@@ -1,1 +1,1 @@
-export const getSlice = (state) => state.userReducer;
+export const getSlice = (state) => state.form;
