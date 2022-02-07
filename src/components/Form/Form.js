@@ -31,7 +31,10 @@ function Form() {
 			firstName: yup.string().required('Поле обязательно'),
 			lastName: yup.string().required('Поле обязательно'),
 			address: yup.string().required('Поле обязательно'),
-			phone: yup.number().required('Поле обязательно'),
+			phone: yup
+				.number()
+				.typeError('Телефон выглядит странно')
+				.required('Поле обязательно'),
 		}),
 		onSubmit: (data) => {
 			console.log(data);
