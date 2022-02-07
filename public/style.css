@@ -29,24 +29,15 @@
 .send {
     width: 100px;
     padding: 3px;
+    margin-top: 10px;
 }
 
 label {
     margin-left: 10px;
 }
 
-.errormessage {
-    color: red;
-}
 
-.user-box {
-    border: 1px solid rgb(87, 85, 85);
-    padding: 10px;
-    border-radius: 5px;
-    min-width: 200px;
-    height: 300px;
-    position: relative;
-}
+
 
 .user-wrapper {
     padding: 20px;

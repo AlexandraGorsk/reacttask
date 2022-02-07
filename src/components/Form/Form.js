@@ -2,13 +2,43 @@ import React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../../store/form/form.action.js';
-import {
-	validateLogin,
-	validateEmail,
-	validateCommon,
-} from './validateForm/validate.js';
+
+import { TextField, Stack } from '@mui/material';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 
 function Form() {
+	const {
+		handleBlur,
+		handleChange,
+		errors,
+		values,
+		handleSubmit,
+		handleReset,
+		touched,
+	} = useFormik({
+		initialValues: {
+			login: '',
+			email: '',
+			firstName: '',
+			lastName: '',
+			address: '',
+			phone: '',
+		},
+		validationSchema: yup.object().shape({
+			login: yup.string().required('Поле обязательно'),
+			email: yup.string().email('Must be a valid email'),
+			firstName: yup.string().required('Поле обязательно'),
+			lastName: yup.string().required('Поле обязательно'),
+			address: yup.string().required('Поле обязательно'),
+			phone: yup.number().required('Поле обязательно'),
+		}),
+		onSubmit: (data) => {
+			console.log(data);
+			dispatch(addUser(data));
+			handleReset();
+		},
+	});
 	const dispatch = useDispatch();
 	const [formData, setFormData] = useState({
 		gender: 'male',
@@ -20,50 +50,10 @@ function Form() {
 		phone: '',
 		important: 'yes',
 	});
-	const errorLogin = validateLogin(formData.login);
-	const errorEmail = validateEmail(formData.email);
-	const errorLastName = validateCommon(formData.lastName);
-	const errorFirstName = validateCommon(formData.firstName);
-	const errorPhone = validateCommon(formData.phone);
-	const error =
-		!!errorLogin || !!errorFirstName || !!errorLastName || !!errorPhone;
-	const [touched, setTouched] = useState({
-		login: false,
-		email: false,
-		firstName: false,
-		lastName: false,
-		phone: false,
-	});
-	const handleChangeFormData = (e) => {
+	const handleRadioChange = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
-	const handleBlur = (e) => {
-		setTouched({ ...touched, [e.target.name]: true });
-	};
-
-	const sendButton = (e) => {
-		e.preventDefault();
-		dispatch(addUser(formData));
-		console.log(formData);
-		setFormData({
-			gender: 'male',
-			login: '',
-			email: '',
-			firstName: '',
-			lastName: '',
-			address: '',
-			phone: '',
-			important: 'yes',
-		});
-		setTouched({
-			login: false,
-			email: false,
-			firstName: false,
-			lastName: false,
-			phone: false,
-		});
-	};
-	const RadioGender = ({ label, value, onChange, name }) => {
+	const RadioGender = ({ label, value, name }) => {
 		return (
 			<label>
 				<input
@@ -71,13 +61,13 @@ function Form() {
 					type='radio'
 					checked={value === formData.gender}
 					value={value}
-					onChange={onChange}
+					onChange={handleRadioChange}
 				/>
 				{label}
 			</label>
 		);
 	};
-	const RadioMessage = ({ label, value, onChange, name }) => {
+	const RadioMessage = ({ label, value, name }) => {
 		return (
 			<label>
 				<input
@@ -85,7 +75,7 @@ function Form() {
 					type='radio'
 					checked={value === formData.important}
 					value={value}
-					onChange={onChange}
+					onChange={handleRadioChange}
 				/>
 				{label}
 			</label>
@@ -93,125 +83,107 @@ function Form() {
 	};
 	return (
 		<div className='registration'>
-			<form>
+			<form onSubmit={handleSubmit} onReset={handleReset}>
 				<div>
 					<RadioGender
 						label='Male'
 						name='gender'
 						value='male'
-						onChange={handleChangeFormData}
+						onChange={handleRadioChange}
 					/>
 					<RadioGender
 						label='Female'
 						name='gender'
 						value='Female'
-						onChange={handleChangeFormData}
+						onChange={handleRadioChange}
 					/>
 				</div>
-				<div>
-					<h4>Login</h4>
-					{touched.login && !!errorLogin && (
-						<h5 className='errormessage'>{errorLogin}</h5>
-					)}
-					<input
-						className='input'
-						value={formData.login}
+				<Stack direction='column' spacing={1.5} mt={2}>
+					<TextField
+						sx={{ width: 400 }}
+						label='Login'
+						id='login'
 						name='login'
-						type='text'
-						placeholder='Enter your login'
-						onChange={handleChangeFormData}
+						value={values.login}
+						onChange={handleChange}
 						onBlur={handleBlur}
-						required
+						error={touched.login && !!errors.login}
+						helperText={touched.login && errors.login}
+						fullWidth
 					/>
-				</div>
-				<div>
-					<h4>E-mail</h4>
-					{touched.email && errorEmail && formData.email !== '' && (
-						<h5 className='errormessage'>Введите корректный email</h5>
-					)}
-					<input
-						className='input'
-						value={formData.email}
+					<TextField
+						fullWidth
+						label='E-mail'
+						id='email'
 						name='email'
-						type='text'
-						placeholder='Enter your email'
-						onChange={handleChangeFormData}
+						value={values.email}
+						onChange={handleChange}
 						onBlur={handleBlur}
+						error={touched.email && !!errors.email}
+						helperText={touched.email && errors.email}
 					/>
-				</div>
-				<div>
-					<h4>First Name</h4>
-					{touched.firstName && !!errorFirstName && (
-						<h5 className='errormessage'>{errorFirstName}</h5>
-					)}
-					<input
-						className='input'
-						value={formData.firstName}
+					<TextField
+						fullWidth
+						label='First Name'
+						id='firstName'
 						name='firstName'
-						type='text'
-						placeholder='Enter your First Name'
-						onChange={handleChangeFormData}
+						value={values.firstName}
+						onChange={handleChange}
 						onBlur={handleBlur}
+						error={touched.firstName && !!errors.firstName}
+						helperText={touched.firstName && errors.firstName}
 					/>
-				</div>
-				<div>
-					<h4>Last Name</h4>
-					{touched.lastName && !!errorLastName && (
-						<h5 className='errormessage'>{errorLastName}</h5>
-					)}
-					<input
-						className='input'
-						value={formData.lastName}
+					<TextField
+						fullWidth
+						label='Last Name'
+						id='lastName'
 						name='lastName'
-						type='text'
-						placeholder='Enter your Last Name'
-						onChange={handleChangeFormData}
+						value={values.lastName}
+						onChange={handleChange}
 						onBlur={handleBlur}
+						error={touched.lastName && !!errors.lastName}
+						helperText={touched.lastName && errors.lastName}
 					/>
-				</div>
-				<div>
-					<h4>Adress</h4>
-					<input
-						className='input'
-						value={formData.address}
+					<TextField
+						fullWidth
+						label='Address'
+						id='address'
 						name='address'
-						type='text'
-						placeholder='Enter your Adress'
-						onChange={handleChangeFormData}
-					/>
-				</div>
-				<div>
-					<h4>Mobile Phone</h4>
-					{touched.phone && !!errorPhone && (
-						<h5 className='errormessage'>{errorPhone}</h5>
-					)}
-					<input
-						className='input'
-						value={formData.phone}
-						name='phone'
-						type='text'
-						placeholder='Enter your mobile phone'
-						onChange={handleChangeFormData}
+						value={values.address}
+						onChange={handleChange}
 						onBlur={handleBlur}
+						error={touched.address && !!errors.address}
+						helperText={touched.address && errors.address}
 					/>
-				</div>
+					<TextField
+						fullWidth
+						label='Mobile Phone'
+						id='phone'
+						name='phone'
+						value={values.phone}
+						onChange={handleChange}
+						onBlur={handleBlur}
+						error={touched.phone && !!errors.phone}
+						helperText={touched.phone && errors.phone}
+					/>
+					<div>
+						<h4>Receive important messages</h4>
+						<RadioMessage
+							label='YES'
+							name='important'
+							value='yes'
+							onChange={handleRadioChange}
+						/>
+						<RadioMessage
+							label='NO'
+							name='important'
+							value='no'
+							onChange={handleRadioChange}
+						/>
+					</div>
+				</Stack>
 				<div>
-					<h4>Receive important messages</h4>
-					<RadioMessage
-						label='YES'
-						name='important'
-						value='yes'
-						onChange={handleChangeFormData}
-					/>
-					<RadioMessage
-						label='NO'
-						name='important'
-						value='no'
-						onChange={handleChangeFormData}
-					/>
-				</div>
-				<div>
-					<button disabled={error} className='send' onClick={sendButton}>
+					<button className='send' type='submit'>
 						Send
 					</button>
 				</div>
