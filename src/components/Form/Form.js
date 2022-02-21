@@ -26,14 +26,14 @@ function Form() {
 		touched,
 	} = useFormik({
 		initialValues: {
-			gender: 'female',
+			gender: '',
 			login: '',
 			email: '',
 			firstName: '',
 			lastName: '',
 			address: '',
 			phone: '',
-			important: 'Yes',
+			important: '',
 		},
 		validationSchema: yup.object().shape({
 			login: yup.string().required('Поле обязательно'),
@@ -54,20 +54,22 @@ function Form() {
 	});
 	const dispatch = useDispatch();
 	const [formData, setFormData] = useState({
-		gender: '',
+		gender: 'Female',
 		login: '',
 		email: '',
 		firstName: '',
 		lastName: '',
 		address: '',
 		phone: '',
-		important: '',
+		important: 'Yes',
 	});
 	const handleRadioChange = (e) => {
-		console.log(formData);
+		console.log(e.target.name);
+		console.log(e.target.value);
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 		console.log(formData);
 	};
+	console.log(formData);
 	return (
 		<div className='registration'>
 			<form onSubmit={handleSubmit} onReset={handleReset}>
