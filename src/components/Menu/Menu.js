@@ -1,42 +1,40 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { MenuData } from './MenuData';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-const Main = styled('section')`
-	border-right: 1px solid rgb(246, 235, 235);
-	background-color: rgb(236, 235, 235);
-	height: 100vh;
-	width: 200px;
-`;
-const NavItem = styled('li')`
-	list-style: none;
-	padding: 20px;
-	margin: 0 8px 0 0;
-	font-size: 20px;
-	> a {
-		text-decoration: none;
-		color: #333;
-	}
-	a:hover {
-		color: gray;
-	}
-`;
+import { Drawer, Divider, List, ListItem, ListItemText } from '@mui/material';
 
 const Menu = () => {
+	const drawerWidth = 240;
+	console.log(MenuData);
 	return (
-		<Main>
-			<ul>
-				{MenuData.map((item, index) => {
-					return (
-						<NavItem key={index}>
-							<Link to={item.path}>{item.title}</Link>
-						</NavItem>
-					);
-				})}
-			</ul>
-		</Main>
+		<Drawer
+			sx={{
+				width: drawerWidth,
+				flexShrink: 0,
+				'& .MuiDrawer-paper': {
+					width: drawerWidth,
+					boxSizing: 'border-box',
+				},
+			}}
+			variant='permanent'
+			anchor='left'
+		>
+			<Divider />
+			<List>
+				{MenuData.map((item, index) => (
+					<ListItem button key={index}>
+						<ListItemText>
+							<Link
+								to={item.path}
+								style={{ textDecoration: 'none', color: 'black', fontSize: 20 }}
+							>
+								{item.title}
+							</Link>
+						</ListItemText>
+					</ListItem>
+				))}
+			</List>
+		</Drawer>
 	);
 };
 

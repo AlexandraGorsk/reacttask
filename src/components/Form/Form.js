@@ -3,7 +3,15 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../../store/form/form.action.js';
 
-import { TextField, Stack } from '@mui/material';
+import {
+	TextField,
+	Stack,
+	RadioGroup,
+	Radio,
+	FormControlLabel,
+	FormControl,
+	Typography,
+} from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
@@ -18,12 +26,14 @@ function Form() {
 		touched,
 	} = useFormik({
 		initialValues: {
+			gender: 'female',
 			login: '',
 			email: '',
 			firstName: '',
 			lastName: '',
 			address: '',
 			phone: '',
+			important: 'Yes',
 		},
 		validationSchema: yup.object().shape({
 			login: yup.string().required('Поле обязательно'),
@@ -44,62 +54,39 @@ function Form() {
 	});
 	const dispatch = useDispatch();
 	const [formData, setFormData] = useState({
-		gender: 'male',
+		gender: '',
 		login: '',
 		email: '',
 		firstName: '',
 		lastName: '',
 		address: '',
 		phone: '',
-		important: 'yes',
+		important: '',
 	});
 	const handleRadioChange = (e) => {
+		console.log(formData);
 		setFormData({ ...formData, [e.target.name]: e.target.value });
-	};
-	const RadioGender = ({ label, value, name }) => {
-		return (
-			<label>
-				<input
-					name={name}
-					type='radio'
-					checked={value === formData.gender}
-					value={value}
-					onChange={handleRadioChange}
-				/>
-				{label}
-			</label>
-		);
-	};
-	const RadioMessage = ({ label, value, name }) => {
-		return (
-			<label>
-				<input
-					name={name}
-					type='radio'
-					checked={value === formData.important}
-					value={value}
-					onChange={handleRadioChange}
-				/>
-				{label}
-			</label>
-		);
+		console.log(formData);
 	};
 	return (
 		<div className='registration'>
 			<form onSubmit={handleSubmit} onReset={handleReset}>
 				<div>
-					<RadioGender
-						label='Male'
-						name='gender'
-						value='male'
-						onChange={handleRadioChange}
-					/>
-					<RadioGender
-						label='Female'
-						name='gender'
-						value='Female'
-						onChange={handleRadioChange}
-					/>
+					<FormControl>
+						<RadioGroup
+							row
+							value={formData.gender}
+							onChange={handleRadioChange}
+							name='gender'
+						>
+							<FormControlLabel
+								value='Female'
+								control={<Radio />}
+								label='Female'
+							/>
+							<FormControlLabel value='Male' control={<Radio />} label='Male' />
+						</RadioGroup>
+					</FormControl>
 				</div>
 				<Stack direction='column' spacing={1.5} mt={2}>
 					<TextField
@@ -170,19 +157,18 @@ function Form() {
 						helperText={touched.phone && errors.phone}
 					/>
 					<div>
-						<h4>Receive important messages</h4>
-						<RadioMessage
-							label='YES'
-							name='important'
-							value='yes'
-							onChange={handleRadioChange}
-						/>
-						<RadioMessage
-							label='NO'
-							name='important'
-							value='no'
-							onChange={handleRadioChange}
-						/>
+						<FormControl>
+							<Typography>Receive important messages</Typography>
+							<RadioGroup
+								row
+								name='important'
+								value={formData.important}
+								onChange={handleRadioChange}
+							>
+								<FormControlLabel value='Yes' control={<Radio />} label='Yes' />
+								<FormControlLabel value='No' control={<Radio />} label='No' />
+							</RadioGroup>
+						</FormControl>
 					</div>
 				</Stack>
 				<div>
