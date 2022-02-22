@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+// import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../../store/form/form.action.js';
 
@@ -26,14 +26,14 @@ function Form() {
 		touched,
 	} = useFormik({
 		initialValues: {
-			gender: '',
+			gender: 'Female',
 			login: '',
 			email: '',
 			firstName: '',
 			lastName: '',
 			address: '',
 			phone: '',
-			important: '',
+			important: 'Yes',
 		},
 		validationSchema: yup.object().shape({
 			login: yup.string().required('Поле обязательно'),
@@ -53,23 +53,23 @@ function Form() {
 		},
 	});
 	const dispatch = useDispatch();
-	const [formData, setFormData] = useState({
-		gender: 'Female',
-		login: '',
-		email: '',
-		firstName: '',
-		lastName: '',
-		address: '',
-		phone: '',
-		important: 'Yes',
-	});
-	const handleRadioChange = (e) => {
-		console.log(e.target.name);
-		console.log(e.target.value);
-		setFormData({ ...formData, [e.target.name]: e.target.value });
-		console.log(formData);
-	};
-	console.log(formData);
+	// const [formData, setFormData] = useState({
+	// 	gender: 'Female',
+	// 	login: '',
+	// 	email: '',
+	// 	firstName: '',
+	// 	lastName: '',
+	// 	address: '',
+	// 	phone: '',
+	// 	important: 'Yes',
+	// });
+	// const handleRadioChange = (e) => {
+	// 	console.log(e.target.name);
+	// 	console.log(e.target.value);
+	// 	setFormData({ ...formData, [e.target.name]: e.target.value });
+	// 	console.log(formData);
+	// };
+	// console.log(formData);
 	return (
 		<div className='registration'>
 			<form onSubmit={handleSubmit} onReset={handleReset}>
@@ -77,8 +77,8 @@ function Form() {
 					<FormControl>
 						<RadioGroup
 							row
-							value={formData.gender}
-							onChange={handleRadioChange}
+							value={values.gender}
+							onChange={handleChange}
 							name='gender'
 						>
 							<FormControlLabel
@@ -164,8 +164,8 @@ function Form() {
 							<RadioGroup
 								row
 								name='important'
-								value={formData.important}
-								onChange={handleRadioChange}
+								value={values.important}
+								onChange={handleChange}
 							>
 								<FormControlLabel value='Yes' control={<Radio />} label='Yes' />
 								<FormControlLabel value='No' control={<Radio />} label='No' />
